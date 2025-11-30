@@ -1,0 +1,148 @@
+# Planning Workflow Prompts
+
+# Stage 1: Product Requirements Document (PRD)
+prd_prompt: |
+  # PRD Generation Task
+
+  Create a comprehensive Product Requirements Document based on the feature description.
+
+  ## Instructions
+  1. Read the feature description in `.ai/PLANNING/FEATURE_DESCRIPTION.md`
+  2. Check for an existing PRD in `.ai/PLANNING/1_PRD.md` - if unrelated, ask to remove it
+  3. Explore the codebase for context
+  4. Generate a PRD at `.ai/PLANNING/1_PRD.md`
+
+  ## PRD Format
+  1. **Overview**: Feature summary, problem statement, goals, success metrics
+  2. **Outstanding Questions**: List unclear items requiring clarification
+  3. **Requirements**: Functional, non-functional, constraints, dependencies
+  4. **User Experience**: User flow, UI/UX considerations, mockups
+  5. **Technical Implementation**: Architecture, component changes, data model/API updates
+  6. **Acceptance Criteria**: Testable criteria, edge cases
+  7. **Implementation Plan**: Approach, complexity estimate, risks and mitigations
+
+  Important: Thoroughly explore the codebase, document assumptions, be specific and detailed, consider compatibility/performance/security. Verify the PRD file is created at `.ai/PLANNING/1_PRD.md`.
+
+# Stage 2: Architecture Decision Record (ADR)
+adr_prompt: |
+  # Architecture Decision Record Generation Task
+
+  Create ADRs for significant architectural decisions required by the feature.
+
+  ## Instructions
+  1. Read the PRD in `.ai/PLANNING/1_PRD.md`
+  2. Identify significant architectural decisions
+  3. Create a separate ADR for each in `.ai/PLANNING/decisions/`
+  4. If only using existing patterns, create a single ADR stating this
+
+  ## ADR Format (filename: `ADR-{number}-{short-title}.md`)
+  1. **Title**: Clear, concise decision title
+  2. **Status**: Proposed, Accepted, Deprecated, or Superseded
+  3. **Context**: Background, problem addressed, constraints
+  4. **Decision**: Details, rationale, consequences (positive and negative)
+  5. **Alternatives Considered**: Other approaches, why not selected, trade-offs
+  6. **Implementation Notes**: Developer guidance, potential challenges
+
+  Focus on decisions with significant impact. Consider maintainability, scalability, performance, and security implications.
+
+# Stage 3: Task Decomposition
+task_decomposition_prompt: |
+  # Task Decomposition Generation Task
+
+  Break down the feature implementation into specific, actionable tasks.
+
+  ## Instructions
+  1. Read the PRD and ADRs
+  2. Break down implementation into discrete tasks
+  3. Generate a task list overview at `.ai/PLANNING/3_TASKS.md`
+  4. Create individual task files in `.ai/PLANNING/implementation/`, one per task
+
+  ## Task List Overview Format (at `.ai/PLANNING/3_TASKS.md`)
+  1. **Implementation Tasks**: Grouped by category with:
+     - Task ID and title
+     - Brief description
+     - Complexity (Low, Medium, High)
+     - Dependencies
+
+  2. **Task Dependencies**: Visual/text representation, critical path
+
+  3. **Implementation Sequence**: Order, parallel opportunities
+
+  ## Individual Task Files (at `.ai/PLANNING/implementation/TASK-{ID}.md`)
+  1. **Task ID and Title**: Matching overview document
+  2. **Description**: Details, context, files to modify
+  3. **Dependencies**: Related task IDs with explanations
+  4. **Implementation Details**: Step-by-step guide, code patterns, API/data changes
+  5. **Acceptance Criteria**: Specific, testable requirements
+  6. **Testing Notes**: Test focus and approaches
+
+  Tasks should be atomic, specific, actionable, and include tests/documentation. Consider edge cases and organize the implementation directory by categories if appropriate.
+
+# Stage 4: Risk Assessment
+risk_assessment_prompt: |
+  # Risk Assessment Generation Task
+
+  Identify and analyze potential risks for the feature implementation.
+
+  ## Instructions
+  1. Review PRD, ADRs, and task list
+  2. Identify potential implementation risks
+  3. Generate risk assessment at `.ai/PLANNING/4_RISKS.md`
+
+  ## Risk Assessment Format
+  1. **Risk Summary**: Key risks overview, risk heat map
+  2. **Detailed Risk Analysis**: For each risk:
+     - ID and description
+     - Impact, probability, severity (Low, Medium, High)
+     - Areas affected
+     - Warning signs
+  3. **Mitigation Strategies**: Prevention, contingencies, responsibilities
+  4. **Monitoring Plan**: Metrics, checkpoints, success indicators
+
+  Consider technical, user acceptance, business, security, performance, dependency, and compatibility risks. Provide specific, actionable mitigation strategies.
+
+# Stage 5: Testing Strategy
+testing_strategy_prompt: |
+  # Testing Strategy Generation Task
+
+  Create a comprehensive testing strategy for the feature.
+
+  ## Instructions
+  1. Review all planning documents
+  2. Consider all testing aspects
+  3. Generate testing strategy at `.ai/PLANNING/5_TESTING_STRATEGY.md`
+
+  ## Testing Strategy Format
+  1. **Testing Overview**: Approach, scope, boundaries
+  2. **Test Categories**:
+     - Unit Testing: Components, cases, mocking
+     - Integration Testing: Points, environment
+     - UI/UX Testing: User flows, accessibility
+     - Performance Testing: Metrics, load scenarios
+     - Security Testing: Considerations, validation tests
+  3. **Test Automation**: What/how to automate, CI/CD integration
+  4. **Test Data**: Requirements, generation approach
+  5. **Acceptance Testing**: Final validation, definition of "Done"
+
+  Align testing with risks, cover both happy and error paths, specify environments and tools, consider compatibility and cross-platform needs.
+
+# Stage 6: Planning Summary
+planning_summary_prompt: |
+  # Planning Summary Generation Task
+
+  Create a concise executive summary of all planning artifacts.
+
+  ## Instructions
+  1. Review all planning documents
+  2. Create an executive-level summary
+  3. Generate summary at `.ai/PLANNING/6_SUMMARY.md`
+
+  ## Summary Format
+  1. **Feature Overview**: Concise description, value proposition, scope
+  2. **Implementation Approach**: Strategy, key decisions, affected components
+  3. **Timeline and Resources**: Implementation timeline, requirements, dependencies
+  4. **Key Risks and Mitigations**: Top 3-5 risks with mitigations
+  5. **Success Criteria**: Definition, key metrics
+  6. **Next Steps**: Immediate actions, open questions, approvals
+
+  Keep concise with bullet points for readability. Target both technical and non-technical stakeholders with clear next steps.

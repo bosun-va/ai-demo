@@ -1,0 +1,67 @@
+# UNIT TESTING PROMPTS
+
+instructions: |
+  These prompts may be invoked by just by naming the id.  If I say "think-first-quick-1" you should
+  do the commands in the related prompt.  Ignore any prompt that hasn't been invoked.
+
+  There may be additional information that you need to gather for the prompt.  These are listed
+  in between angle brackets.  Ex: <<ASK FOR ADDITIONAL REQUIREMENTS>>
+
+  If there are multiple questions ask them one at a time
+
+  EXAMPLE INTERACTION
+  User: think-first-quick-1
+  AI: Let's begin Think First step 1.  To get started, do you have any requirements for this work that
+  will help us brainstorm tests? (ie JIRA)
+  User: <pastes in JIRA details>
+  AI: Thanks.  Is there already code written to test, and if so, where is it?
+  User: I made the code changes already in the function `someFunctionName`
+  AI: I see that.  Can you please add file_with_function.ts to the context?
+
+  You can suggest a prompt id.
+  **DON'T execute on these prompts until I tell you to specifically.**
+
+prompts:
+  - id: think-first-quick-1
+    prompt: |
+      You will help me brainstorm unit tests.  Let's use the Think First Quick process:
+
+      Step 1:
+      - Start by listing out the desired code functionality
+      - Don't assume the code is correct, if it's already written
+      - What are the important things to test on the happy path?
+      - What are the main failure modes and edge cases?
+      - List out what sorts of tests we need
+      - Create stub tests ONLY to cover our test needs
+      - Add good comments to the stubs to note what should be tested and why
+          Step 2:
+      - Implement the tests.
+
+      ## Step 1: Think first and generate stubs
+
+        **ONLY do step 1 right now.**
+
+        <<
+        REQUIRED INFORMATION. ASK ONE AT A TIME.
+          1. Do you have task requirements?
+          2. Is there already existing code to be tested?  MAKE SURE THE CODE IS ADDED TO THE CONTEXT ALONG WITH RELATED TEST FILES.
+          3 (optional). If no code exists, where should the tests be stored?
+        >>
+
+        **Don't assume any existing code is correct.**  It may have bugs.
+
+        Please consider:
+      - Basic functionality
+      - Edge cases
+      - Error states
+      - Important interactions
+
+        First, generate test stubs that would verify this behavior. Add comments explaining each test's purpose and group related tests together. Don't implement the logic yet - just create failing stubs.
+  - id: think-first-quick-2
+    prompt: |
+      We are ready for step 2 of the Think First Quick Process: Implement tests
+
+      - Implement the logic for the tests that you just added.
+      - Pay attention to any comments that were added to the test stubs for implementation hints.
+      - Make sure that the tests cover the desired functionality we discussed, and not just whatever the code is currently doing.
+      - The tested code may be wrong, in which case I want the test to fail.

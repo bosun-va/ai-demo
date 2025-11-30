@@ -1,0 +1,93 @@
+# UNIT TESTING PROMPTS
+
+instructions: |
+  These prompts may be invoked by just by naming the id.  If I say "think-first-1" you should
+  do the commands in the related prompt.  Ignore any prompt that hasn't been invoked.
+
+  There may be additional information that you need to gather for the prompt.  These are listed
+  in between angle brackets.  Ex: <<ASK FOR ADDITIONAL REQUIREMENTS>>
+
+  If there are multiple questions ask them one at a time
+
+  EXAMPLE INTERACTION
+  User: think-first-1
+  AI: Let's begin Think First step 1.  To get started, do you have any requirements for this work that
+  will help us brainstorm tests? (ie JIRA)
+  User: <pastes in JIRA details>
+  AI: Thanks.  Is there already code written to test, and if so, where is it?
+  User: I made the code changes already in the function `someFunctionName`
+  AI: I see that.  Can you please add file_with_function.ts to the context?
+
+  You can suggest a prompt id.
+  **DON'T execute on these prompts until I tell you to specifically.**
+
+prompts:
+  - id: think-first-1
+    prompt: |
+      Brainstorm unit tests with me.  We aren't writing tests yet.  We're just thinking about what sorts of tests we should have.
+
+      We are using the Think First process of unit test generation, which will go through four steps:
+
+      1. Summarize desired functionality (discover the testable requirements)
+      2. List required tests
+      3. Generate **test stubs**
+      4. Iteratively implement tests
+
+      Right now we are doing step 1 only.  Our goal is just to understand what functionality is desired so we can design the best tests.
+
+      ## Step 1: Summarize desired functionality
+
+      <<
+      REQUIRED INFORMATION. ASK ONE AT A TIME.
+        1. ASK FOR TASK REQUIREMENTS
+        2. IS THERE ALREADY EXISTING CODE TO BE TESTED, AND WHERE?  MAKE SURE THE CODE IS ADDED TO THE CONTEXT ALONG WITH RELATED TEST FILES.
+        3 (optional). IF NO CODE EXISTS, WHERE SHOULD THE TESTS BE STORED?
+      >>
+
+      Answer the following questions.
+      **Don’t assume the code we are testing is correct**.  It may have bugs.
+      Start this process by understanding what the code is meant to do.
+
+      Here are the questions to answer:
+        1. Summarize the purpose of the code to be tested.  What is it trying to do?
+        2. What are the inputs and outputs that we care about?
+        3. What are the possible failure modes we should consider?
+        4. What are the main objectives that we should verify are happening properly.
+
+      Again, don't write any tests.  We are only answering these questions now.  Don't skip any questions.  Think this through carefully.
+  - id: think-first-2
+    prompt: |
+      ## Step 2 of the Think First Process: List required tests
+
+      Generate a list of tests that we should have.  Follow these rules:
+        - Take into account what you now know about the purpose of the code, inputs and outputs, and failure modes.
+        - Do not generate any tests yet.  Just list the tests we should create.  We are still brainstorming.
+        - Use the purpose we discovered as the source of truth, not any existing code.  It may be incorrect or incomplete.
+  - id: think-first-3
+    prompt: |
+      ## Step 3: Generate **test stubs**
+
+        Use the following rules:
+          - Do not implement any test logic yet.  Create place holders only.
+          - Generate a placeholder test function for each of the tests I want.
+          - The tests should all fail for now.
+          - Group tests together if they are related.
+          - Add a comment for each test that explains what it will be testing and why.
+
+        Test stub comments should be really detailed.  Example:
+          it('should render all three size buttons', () => {
+               /*Verifies that:
+                * 1. All three buttons (quarter, half, full) are present in the DOM
+                *2. Each button displays the correct text content (¼, ½, 1)
+                * 3. The buttons are rendered within the size controls container
+                *Purpose: Ensures basic component structure is intact
+                */
+           });
+  - id: think-first-4
+    prompt: |
+      Step 4 of the Think First Process: Implement tests
+
+      - Implement the logic for the tests that you just added.
+      - Pay attention to any comments that were added to the test stubs for implementation hints.
+      - Make sure that the tests cover the desired functionality we discussed, and not just whatever the code is currently doing.
+      - The tested code may be wrong, in which case I want the test to fail.
