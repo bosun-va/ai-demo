@@ -6,7 +6,7 @@ TODOs will now include:
 - dueDate: Date
 - priority: Low|Medium|High
 
-Update the UI to display and up``date the new data.
+Update the UI to display and update the new data.
 
 Update the data handling code to store and load the new data.
 

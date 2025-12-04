@@ -10,7 +10,8 @@ prd_prompt: |
   1. Read the feature description in `.ai/PLANNING/FEATURE_DESCRIPTION.md`
   2. Check for an existing PRD in `.ai/PLANNING/1_PRD.md` - if unrelated, ask to remove it
   3. Explore the codebase for context
-  4. Generate a PRD at `.ai/PLANNING/1_PRD.md`
+  4. Follow detailed planning instructions in `.ai/PROMPTS/.planning/01-prd.prompt.md`
+  5. Generate a PRD at `.ai/PLANNING/1_PRD.md`
 
   ## PRD Format
   1. **Overview**: Feature summary, problem statement, goals, success metrics
